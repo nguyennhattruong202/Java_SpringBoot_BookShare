@@ -21,10 +21,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import vn.bookshare.common.enums.Role;
 
 @Entity
-@Table(name = "user")
+@Table(name = "account_user")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends Auditable implements UserDetails, Serializable {
+public class AccountUser extends Auditable implements UserDetails, Serializable {
 
     @Id
     @Basic(optional = false)

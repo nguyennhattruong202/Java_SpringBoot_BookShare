@@ -12,7 +12,7 @@ import vn.bookshare.validator.PasswordMatches;
 @AllArgsConstructor
 @NoArgsConstructor
 @PasswordMatches
-public class UserRegistrationRequest {
+public class AccountUserRegistrationRequest {
 
     @Email(message = "Invalid email")
     @NotBlank(message = "Email cannot be blank")

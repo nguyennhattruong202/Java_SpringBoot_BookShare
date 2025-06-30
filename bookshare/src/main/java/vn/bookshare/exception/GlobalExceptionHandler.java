@@ -29,8 +29,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(customResponse);
     }
 
-    @ExceptionHandler(value = UserAlreadyExistsException.class)
-    public ResponseEntity<CustomResponse<Void>> handleUserAlreadyException(UserAlreadyExistsException ex) {
+    @ExceptionHandler(value = AccountUserAlreadyExistsException.class)
+    public ResponseEntity<CustomResponse<Void>> handleUserAlreadyException(AccountUserAlreadyExistsException ex) {
         CustomResponse<Void> customResponse = new CustomResponse<>();
         customResponse.setStatus(false);
         customResponse.setMessage(ex.getMessage());

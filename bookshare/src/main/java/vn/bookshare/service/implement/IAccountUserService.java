@@ -6,21 +6,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.bookshare.dto.UserRegistrationRequest;
-import vn.bookshare.entity.User;
+import vn.bookshare.dto.AccountUserRegistrationRequest;
+import vn.bookshare.entity.AccountUser;
 import vn.bookshare.exception.PasswordNotMatchException;
-import vn.bookshare.exception.UserAlreadyExistsException;
-import vn.bookshare.repository.UserRepository;
-import vn.bookshare.service.UserService;
+import vn.bookshare.exception.AccountUserAlreadyExistsException;
+import vn.bookshare.repository.AccountUserRepository;
+import vn.bookshare.service.AccountUserService;
 
 @Transactional
 @Service
-public class IUserService implements UserService, UserDetailsService {
+public class IAccountUserService implements AccountUserService, UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final AccountUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public IUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public IAccountUserService(AccountUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -32,14 +32,14 @@ public class IUserService implements UserService, UserDetailsService {
     }
 
     @Override
-    public void registerUser(UserRegistrationRequest userRegistrationRequest) {
+    public void registerUser(AccountUserRegistrationRequest userRegistrationRequest) {
         if (!userRegistrationRequest.getPassword().equals(userRegistrationRequest.getConfirmPassword())) {
             throw new PasswordNotMatchException("Password do not match");
         }
         if (userRepository.findByUsername(userRegistrationRequest.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("Email is already registered");
+            throw new AccountUserAlreadyExistsException("Email is already registered");
         }
-        User user = new User();
+        AccountUser user = new AccountUser();
         user.setUsername(userRegistrationRequest.getEmail());
         user.setPassword(passwordEncoder.encode(userRegistrationRequest.getPassword()));
         userRepository.save(user);

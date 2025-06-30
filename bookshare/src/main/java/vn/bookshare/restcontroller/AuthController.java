@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import vn.bookshare.dto.UserRegistrationRequest;
+import vn.bookshare.dto.AccountUserRegistrationRequest;
 import vn.bookshare.response.CustomResponse;
-import vn.bookshare.service.UserService;
+import vn.bookshare.service.AccountUserService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AccountUserService userService;
 
-    public AuthController(UserService userService) {
+    public AuthController(AccountUserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CustomResponse<Void>> register(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
+    public ResponseEntity<CustomResponse<Void>> register(@Valid @RequestBody AccountUserRegistrationRequest userRegistrationRequest) {
         userService.registerUser(userRegistrationRequest);
         CustomResponse<Void> customResponse = new CustomResponse();
         customResponse.setStatus(true);
