@@ -2,7 +2,7 @@ package vn.bookshare.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import vn.bookshare.dto.AccountUserRegistrationRequest;
+import vn.bookshare.dto.request.AccountUserRegistrationRequest;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, AccountUserRegistrationRequest> {
 

@@ -1,6 +1,6 @@
 package vn.bookshare.service;
 
-import vn.bookshare.dto.AccountUserRegistrationRequest;
+import vn.bookshare.dto.request.AccountUserRegistrationRequest;
 
 public interface AccountUserService {
 

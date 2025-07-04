@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import vn.bookshare.dto.AccountUserRegistrationRequest;
+import vn.bookshare.dto.request.AccountUserRegistrationRequest;
 import vn.bookshare.entity.AccountUser;
 import vn.bookshare.exception.AccountUserAlreadyExistsException;
 import vn.bookshare.repository.AccountUserRepository;
