@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import vn.bookshare.security.CookieProvider;
 import vn.bookshare.security.JwtAuthenticationFilter;
 import vn.bookshare.security.JwtTokenProvider;
 import vn.bookshare.service.implement.CustomUserDetailsService;
@@ -21,15 +22,20 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final CookieProvider cookieProvider;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService,
+            JwtTokenProvider jwtTokenProvider,
+            CookieProvider cookieProvider) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.cookieProvider = cookieProvider;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtTokenProvider,
+                userDetailsService, cookieProvider);
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

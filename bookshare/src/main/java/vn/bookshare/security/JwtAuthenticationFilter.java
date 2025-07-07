@@ -16,16 +16,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
+    private final CookieProvider cookieProvider;
 
-    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, CustomUserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider,
+            CustomUserDetailsService userDetailsService,
+            CookieProvider cookieProvider) {
         this.tokenProvider = tokenProvider;
         this.userDetailsService = userDetailsService;
+        this.cookieProvider = cookieProvider;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String token = getJwtFromRequest(request);
+        if (!StringUtils.hasText(token)) {
+            token = cookieProvider.getTokenFromCookie(request);
+        }
         if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
             String username = tokenProvider.getUsernameFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

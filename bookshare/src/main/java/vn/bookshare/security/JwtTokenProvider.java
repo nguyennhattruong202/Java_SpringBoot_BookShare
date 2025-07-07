@@ -10,23 +10,24 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Date;
 import java.util.UUID;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import vn.bookshare.exception.CustomExpiredJwtException;
 
 @Component
 public class JwtTokenProvider {
 
-    private final long expirationTime;
+    @Value("${jwt.expiration}")
+    private long expiration;
     private final SecretKey secretKey;
 
-    public JwtTokenProvider(SecretKey secretKey, long expirationTime) {
+    public JwtTokenProvider(SecretKey secretKey) {
         this.secretKey = secretKey;
-        this.expirationTime = expirationTime;
     }
 
     public String generateToken(String username) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expirationTime);
+        Date expiryDate = new Date(now.getTime() + expiration);
         return Jwts.builder()
                 .id(UUID.randomUUID().toString())
                 .issuer("bookshare.vn")

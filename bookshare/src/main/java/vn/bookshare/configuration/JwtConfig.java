@@ -12,16 +12,9 @@ public class JwtConfig {
 
     @Value("${jwt.secret}")
     private String secret;
-    @Value("${jwt.expiration}")
-    private long expirationTime;
 
     @Bean
     public SecretKey secretKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Bean
-    public long expirationTime() {
-        return expirationTime;
     }
 }
