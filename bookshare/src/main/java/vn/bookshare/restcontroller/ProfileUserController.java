@@ -15,23 +15,23 @@ import vn.bookshare.service.UserInfoService;
 @RequestMapping("/api/profile")
 public class ProfileUserController {
 
-    private final UserInfoService userInfoService;
-
-    public ProfileUserController(UserInfoService userInfoService) {
-        this.userInfoService = userInfoService;
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<?> getMyProfile(HttpServletRequest request) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
-                .buildCustomApiResponse(
-                        true,
-                        ResponseCode.GET_PROFILE_SUCCESSFUL.name(),
-                        "Get profile successful",
-                        userInfoService.getUserInfoByUsername(username),
-                        request
-                );
-        return ResponseEntity.status(201).body(customApiResponse);
-    }
+//    private final UserInfoService userInfoService;
+//
+//    public ProfileUserController(UserInfoService userInfoService) {
+//        this.userInfoService = userInfoService;
+//    }
+//
+//    @GetMapping("/me")
+//    public ResponseEntity<?> getMyProfile(HttpServletRequest request) {
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+//                .buildCustomApiResponse(
+//                        true,
+//                        ResponseCode.GET_PROFILE_SUCCESSFUL.name(),
+//                        "Get profile successful",
+//                        userInfoService.getUserInfoByUsername(username),
+//                        request
+//                );
+//        return ResponseEntity.status(201).body(customApiResponse);
+//    }
 }

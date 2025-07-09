@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import vn.bookshare.entity.UserInfo;
 
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
-    @Query("SELECT userInfo FROM UserInfo userInfo WHERE userInfo.username = :username")
-    public Optional<UserInfo> findByUsername(@Param("username") String username);
+    @Query("SELECT userInfo FROM UserInfo userInfo WHERE userInfo.userId = :userId")
+    public Optional<UserInfo> findByUserId(@Param("userId") Long userId);
 }

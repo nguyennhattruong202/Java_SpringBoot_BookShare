@@ -26,10 +26,11 @@ public class IAuthService implements AuthService {
     @Override
     public TokenResponse login(UserLoginRequest userLoginRequest) {
         Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(),
+                        userLoginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         TokenResponse tokenResponse = new TokenResponse();
-        tokenResponse.setAccessToken(jwtTokenProvider.generateToken(userLoginRequest.getEmail()));
+        tokenResponse.setAccessToken(jwtTokenProvider.generateToken(userLoginRequest.getUsername()));
         tokenResponse.setTokenType("Bearer");
         return tokenResponse;
     }

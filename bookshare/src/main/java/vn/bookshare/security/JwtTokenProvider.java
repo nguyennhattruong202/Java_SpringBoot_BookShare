@@ -19,19 +19,20 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expiration}")
     private long expiration;
+    
     private final SecretKey secretKey;
 
     public JwtTokenProvider(SecretKey secretKey) {
         this.secretKey = secretKey;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
         return Jwts.builder()
                 .id(UUID.randomUUID().toString())
                 .issuer("bookshare.vn")
-                .subject(username)
+                .subject(email)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(secretKey)

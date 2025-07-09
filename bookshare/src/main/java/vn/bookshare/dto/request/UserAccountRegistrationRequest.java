@@ -12,12 +12,15 @@ import vn.bookshare.validator.PasswordMatches;
 @AllArgsConstructor
 @NoArgsConstructor
 @PasswordMatches
-public class AccountUserRegistrationRequest {
+public class UserAccountRegistrationRequest {
 
+    @NotBlank(message = "Fullname cannot be blank")
+    @Size(min = 3, max = 255, message = "Fullname must be at least 3 characters and maximum 255 characters")
+    private String fullname;
     @Email(message = "Invalid email")
     @NotBlank(message = "Email cannot be blank")
     @Size(max = 255, message = "Email has maximum 255 characters")
-    private String email;
+    private String username;
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;

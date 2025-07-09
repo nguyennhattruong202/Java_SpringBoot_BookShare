@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.bookshare.common.builder.CustomApiResponseBuilder;
 import vn.bookshare.common.enums.ResponseCode;
-import vn.bookshare.dto.request.AccountUserRegistrationRequest;
+import vn.bookshare.dto.request.UserAccountRegistrationRequest;
 import vn.bookshare.dto.request.UserLoginRequest;
 import vn.bookshare.dto.response.CustomApiResponse;
-import vn.bookshare.service.AccountUserService;
 import vn.bookshare.service.AuthService;
+import vn.bookshare.service.UserAccountService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AccountUserService accountUserService;
+    private final UserAccountService userAccountService;
     private final AuthService authService;
 
-    public AuthController(AccountUserService userService, AuthService authService) {
-        this.accountUserService = userService;
+    public AuthController(UserAccountService userService, AuthService authService) {
+        this.userAccountService = userService;
         this.authService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<CustomApiResponse<Void>> register(HttpServletRequest request,
-            @Valid @RequestBody AccountUserRegistrationRequest userRegistrationRequest) {
-        accountUserService.registerUser(userRegistrationRequest);
+            @Valid @RequestBody UserAccountRegistrationRequest userAccountRegistrationRequest) {
+        userAccountService.registerUser(userAccountRegistrationRequest);
         CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         true,

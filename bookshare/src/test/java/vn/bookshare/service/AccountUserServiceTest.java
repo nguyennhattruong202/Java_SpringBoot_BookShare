@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import vn.bookshare.dto.request.AccountUserRegistrationRequest;
-import vn.bookshare.entity.AccountUser;
+import vn.bookshare.dto.request.UserAccountRegistrationRequest;
+import vn.bookshare.entity.UserAccount;
 import vn.bookshare.exception.AccountUserAlreadyExistsException;
-import vn.bookshare.repository.AccountUserRepository;
+import vn.bookshare.repository.UserAccountRepository;
 
 @SpringBootTest
 @Transactional
@@ -17,36 +17,40 @@ import vn.bookshare.repository.AccountUserRepository;
 public class AccountUserServiceTest {
 
     @Autowired
-    private AccountUserRepository userRepository;
+    private UserAccountRepository userAccountRepository;
     @Autowired
-    private AccountUserService userService;
+    private UserAccountService userAccountService;
 
     @Test
     void registerUser_Success() {
-        AccountUserRegistrationRequest request = new AccountUserRegistrationRequest();
-        String email = "user1@gmail.com";
-        request.setEmail(email);
+        UserAccountRegistrationRequest request = new UserAccountRegistrationRequest();
+        String username = "userdemo@gmail.com";
+        request.setFullname("User demo");
+        request.setUsername(username);
         request.setPassword("1234567");
         request.setConfirmPassword("1234567");
-        userService.registerUser(request);
+        userAccountService.registerUser(request);
 
-        Assertions.assertTrue(userRepository.findByUsername(email).isPresent());
+        Assertions.assertTrue(userAccountRepository.findByUsername(username).isPresent());
     }
 
     @Test
     void registerUser_ExistingEmail_ThrowsException() {
-        AccountUser userExisting = new AccountUser();
-        userExisting.setUsername("user1@gmail.com");
-        userExisting.setPassword("123456789");
-        userRepository.save(userExisting);
+        UserAccount userAccountExisting = new UserAccount();
+        userAccountExisting.setUrl("user-1-1");
+        userAccountExisting.setFullname("User 1");
+        userAccountExisting.setUsername("user1@gmail.com");
+        userAccountExisting.setPassword("123456789");
+        userAccountRepository.save(userAccountExisting);
 
-        AccountUserRegistrationRequest userRegistrationRequest = new AccountUserRegistrationRequest();
-        userRegistrationRequest.setEmail("user1@gmail.com");
+        UserAccountRegistrationRequest userRegistrationRequest = new UserAccountRegistrationRequest();
+        userRegistrationRequest.setFullname("User 1");
+        userRegistrationRequest.setUsername("user1@gmail.com");
         userRegistrationRequest.setPassword("1234567");
         userRegistrationRequest.setConfirmPassword("1234567");
 
-        Exception ex = Assertions.assertThrows(AccountUserAlreadyExistsException.class, () -> {
-            userService.registerUser(userRegistrationRequest);
+        AccountUserAlreadyExistsException ex = Assertions.assertThrows(AccountUserAlreadyExistsException.class, () -> {
+            userAccountService.registerUser(userRegistrationRequest);
         });
         Assertions.assertEquals("Email is already registered", ex.getMessage());
     }

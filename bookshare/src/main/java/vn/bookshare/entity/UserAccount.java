@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -24,14 +26,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import vn.bookshare.common.enums.Role;
 
 @Entity
-@Table(name = "account_user")
+@Table(name = "user_account")
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountUser extends Auditable implements UserDetails, Serializable {
+public class UserAccount extends Auditable implements UserDetails, Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "username", length = 255)
+    @Column(name = "user_id", nullable = false)
+    @Getter
+    private Long userId;
+    @Basic(optional = false)
+    @Column(name = "url", length = 255, nullable = false, unique = true)
+    @Setter
+    @Getter
+    private String url;
+    @Basic(optional = false)
+    @Column(name = "full_name", length = 255, nullable = false)
+    @Getter
+    @Setter
+    private String fullname;
+    @Basic(optional = false)
+    @Column(name = "username", length = 255, nullable = false, unique = true)
     @Setter
     private String username;
     @Basic(optional = false)
@@ -39,21 +56,25 @@ public class AccountUser extends Auditable implements UserDetails, Serializable 
     @Setter
     private String password;
     @Basic(optional = false)
-    @Column(name = "enable", nullable = false)
-    @Setter
-    private boolean enable = true;
-    @Basic(optional = false)
     @Column(name = "role", length = 255, nullable = false)
     @Enumerated(EnumType.STRING)
     @Getter
     @Setter
     private Role role = Role.USER;
+    @Basic(optional = false)
+    @Column(name = "enable", nullable = false)
+    @Setter
+    private boolean enable = true;
+    @Basic(optional = false)
+    @Column(name = "lock", nullable = false)
+    @Setter
+    private boolean lock = false;
     @Basic(optional = true)
-    @Column(name = "note", nullable = true)
+    @Column(name = "note", nullable = true, columnDefinition = "TEXT")
     @Getter
     @Setter
     private String note;
-    @OneToOne(mappedBy = "accountUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @Getter
     @Setter
     private UserInfo userInfo;
@@ -80,7 +101,7 @@ public class AccountUser extends Auditable implements UserDetails, Serializable 
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return this.lock;
     }
 
     @Override

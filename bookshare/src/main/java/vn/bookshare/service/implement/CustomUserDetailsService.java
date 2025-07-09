@@ -6,15 +6,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.bookshare.repository.AccountUserRepository;
+import vn.bookshare.repository.UserAccountRepository;
 
 @Transactional
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AccountUserRepository accountUserRepository;
+    private final UserAccountRepository accountUserRepository;
 
-    public CustomUserDetailsService(AccountUserRepository accountUserRepository) {
+    public CustomUserDetailsService(UserAccountRepository accountUserRepository) {
         this.accountUserRepository = accountUserRepository;
     }
 

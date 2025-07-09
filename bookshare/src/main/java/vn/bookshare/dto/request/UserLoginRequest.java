@@ -15,7 +15,7 @@ public class UserLoginRequest {
     @Email(message = "Invalid email")
     @NotBlank(message = "Email cannot be blank")
     @Size(max = 255, message = "Email has maximum 255 characters")
-    private String email;
+    private String username;
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;

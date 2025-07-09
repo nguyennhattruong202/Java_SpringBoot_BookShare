@@ -27,18 +27,9 @@ public class UserInfo extends Auditable implements Serializable {
 
     @Id
     @Basic(optional = false)
-    @Column(name = "username", length = 255)
+    @Column(name = "user_id", nullable = false)
     @Getter
-    private String username;
-    @Basic(optional = false)
-    @Column(name = "ordinal_number", nullable = false, unique = true)
-    @Getter
-    private Long ordinalNumber;
-    @Basic(optional = false)
-    @Column(name = "fullname", length = 255, nullable = false)
-    @Getter
-    @Setter
-    private String fullname;
+    private Long userId;
     @Basic(optional = false)
     @Column(name = "date_of_birth", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -68,8 +59,8 @@ public class UserInfo extends Auditable implements Serializable {
     private String note;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private AccountUser accountUser;
+    private UserAccount userAccount;
 }

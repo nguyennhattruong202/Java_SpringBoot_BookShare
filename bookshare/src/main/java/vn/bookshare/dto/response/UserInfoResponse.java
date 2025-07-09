@@ -11,9 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserInfoResponse {
 
-    private String username;
-    private Long ordinalNumber;
+    private Long userId;
+    private String url;
     private String fullname;
+    private String username;
     private LocalDate dateOfBirth;
     private String gender;
     private String nationality;

@@ -4,5 +4,5 @@ import vn.bookshare.dto.response.UserInfoResponse;
 
 public interface UserInfoService {
 
-    public UserInfoResponse getUserInfoByUsername(String username);
+    public UserInfoResponse getUserInfoByUserId(Long userId);
 }

@@ -4,12 +4,13 @@ import vn.bookshare.dto.response.UserInfoResponse;
 import vn.bookshare.entity.UserInfo;
 
 public class UserInfoMapper {
-    
+
     public static UserInfoResponse toUserInfoResponse(UserInfo userInfo) {
         UserInfoResponse userInfoResponse = new UserInfoResponse();
-        userInfoResponse.setUsername(userInfo.getUsername());
-        userInfoResponse.setOrdinalNumber(userInfo.getOrdinalNumber());
-        userInfoResponse.setFullname(userInfo.getFullname());
+        userInfoResponse.setUserId(userInfo.getUserAccount().getUserId());
+        userInfoResponse.setUrl(userInfo.getUserAccount().getUrl());
+        userInfoResponse.setFullname(userInfo.getUserAccount().getFullname());
+        userInfoResponse.setUsername(userInfo.getUserAccount().getUsername());
         userInfoResponse.setDateOfBirth(userInfo.getDateOfBirth());
         userInfoResponse.setGender(userInfo.getGender());
         userInfoResponse.setNationality(userInfo.getNationality());
@@ -17,7 +18,7 @@ public class UserInfoMapper {
         userInfoResponse.setCreatedDate(userInfo.getCreatedDate());
         userInfoResponse.setUpdatedDate(userInfo.getUpdatedDate());
         userInfoResponse.setNote(userInfo.getNote());
-        userInfoResponse.setRole(userInfo.getAccountUser().getRole().name());
+        userInfoResponse.setRole(userInfo.getUserAccount().getRole().name());
         return userInfoResponse;
     }
 }

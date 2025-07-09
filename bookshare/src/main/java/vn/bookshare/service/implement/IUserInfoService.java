@@ -20,8 +20,8 @@ public class IUserInfoService implements UserInfoService {
     }
 
     @Override
-    public UserInfoResponse getUserInfoByUsername(String username) {
-        UserInfo userInfo = userInfoRepository.findByUsername(username)
+    public UserInfoResponse getUserInfoByUserId(Long userId) {
+        UserInfo userInfo = userInfoRepository.findByUserId(userId)
                 .orElseThrow(() -> new UserInfoNotFoundException("User not found"));
         return UserInfoMapper.toUserInfoResponse(userInfo);
     }
