@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserInfoResponse {
+public class UserAccountResponse {
 
     private Long userId;
     private String url;
