@@ -19,8 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.springframework.transaction.annotation.Transactional;
 import vn.bookshare.dto.request.UserAccountRegistrationRequest;
-import vn.bookshare.entity.UserAccount;
-import vn.bookshare.entity.UserInfo;
 import vn.bookshare.service.UserAccountService;
 
 @SpringBootTest

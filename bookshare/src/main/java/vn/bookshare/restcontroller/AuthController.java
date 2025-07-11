@@ -12,6 +12,7 @@ import vn.bookshare.common.enums.ResponseCode;
 import vn.bookshare.dto.request.UserAccountRegistrationRequest;
 import vn.bookshare.dto.request.UserLoginRequest;
 import vn.bookshare.dto.response.CustomApiResponse;
+import vn.bookshare.dto.response.TokenResponse;
 import vn.bookshare.service.AuthService;
 import vn.bookshare.service.UserAccountService;
 
@@ -43,9 +44,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest userLoginRequest,
+    public ResponseEntity<CustomApiResponse<TokenResponse>> login(
+            @Valid @RequestBody UserLoginRequest userLoginRequest,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<TokenResponse> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         true,
                         ResponseCode.LOGIN_SUCCESSFUL.name(),

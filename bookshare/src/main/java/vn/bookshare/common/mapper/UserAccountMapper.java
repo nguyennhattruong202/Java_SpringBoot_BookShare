@@ -5,6 +5,10 @@ import vn.bookshare.entity.UserAccount;
 
 public class UserAccountMapper {
 
+    private UserAccountMapper() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     public static UserAccountResponse toUserAccountResponse(UserAccount userAccount) {
         UserAccountResponse userInfoResponse = new UserAccountResponse();
         userInfoResponse.setUserId(userAccount.getUserId());

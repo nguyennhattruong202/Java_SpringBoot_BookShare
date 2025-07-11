@@ -12,7 +12,7 @@ public class UserNameBuilder {
     }
 
     private String toSlug(String string) {
-        string = string.replaceAll("Đ", "D").replaceAll("đ", "d");
+        string = string.replace("Đ", "D").replace("đ", "d");
         String noAccent = Normalizer.normalize(string, Normalizer.Form.NFD); // 1. Loại bỏ dấu tiếng Việt
         String asciiOnly = noAccent.replaceAll("\\p{M}", ""); // 1. Loại bỏ dấu tiếng Việt
         String cleaned = asciiOnly.replaceAll("[^a-zA-Z0-9\\s]", ""); // 2. Loại bỏ các ký tự không phải chữ/số hoặc khoảng trắng

@@ -14,7 +14,7 @@ import vn.bookshare.repository.UserAccountRepository;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AccountUserServiceTest {
+class AccountUserServiceTest {
 
     @Autowired
     private UserAccountRepository userAccountRepository;

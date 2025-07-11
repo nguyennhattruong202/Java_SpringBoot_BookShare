@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.bookshare.common.builder.CustomApiResponseBuilder;
 import vn.bookshare.common.enums.ResponseCode;
 import vn.bookshare.dto.response.CustomApiResponse;
+import vn.bookshare.dto.response.UserAccountResponse;
 import vn.bookshare.service.UserAccountService;
 
 @RestController
@@ -21,8 +22,8 @@ public class ProfileUserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getMyProfile(HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+    public ResponseEntity<CustomApiResponse<UserAccountResponse>> getMyProfile(HttpServletRequest request) {
+        CustomApiResponse<UserAccountResponse> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         true,
                         ResponseCode.GET_PROFILE_SUCCESSFUL.name(),

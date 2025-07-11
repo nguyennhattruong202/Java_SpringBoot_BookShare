@@ -11,7 +11,7 @@ public class CookieProvider {
 
     @Value("${jwt.expiration}")
     private long expiration;
-    private final String cookieName = "accessToken";
+    private static final String cookieName = "accessToken";
 
     public void addTokenToCookie(HttpServletResponse response, String token) {
         Cookie cookie = new Cookie(cookieName, token);

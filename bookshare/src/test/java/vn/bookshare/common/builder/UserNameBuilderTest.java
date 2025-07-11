@@ -3,7 +3,7 @@ package vn.bookshare.common.builder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class UserNameBuilderTest {
+class UserNameBuilderTest {
 
     private final UserNameBuilder builder = new UserNameBuilder();
 

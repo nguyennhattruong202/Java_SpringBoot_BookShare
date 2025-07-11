@@ -22,14 +22,14 @@ import vn.bookshare.dto.response.CustomApiResponse;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidation(
+    public ResponseEntity<CustomApiResponse<Map<String, List<String>>>> handleValidation(
             MethodArgumentNotValidException exception, HttpServletRequest request) {
         Map<String, List<String>> errors = new HashMap<>();
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             errors.computeIfAbsent(fieldError.getField(),
                     key -> new ArrayList<>()).add(fieldError.getDefaultMessage());
         }
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Map<String, List<String>>> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.VALIDATION_ERROR.name(),
@@ -41,10 +41,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = PasswordNotMatchException.class)
-    public ResponseEntity<?> handlePasswordNotMatchException(
+    public ResponseEntity<CustomApiResponse<Void>> handlePasswordNotMatchException(
             PasswordNotMatchException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.PASSWORD_NOT_MATCH_ERROR.name(),
@@ -56,10 +56,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = AccountUserAlreadyExistsException.class)
-    public ResponseEntity<?> handleUserAlreadyException(
+    public ResponseEntity<CustomApiResponse<Void>> handleUserAlreadyException(
             AccountUserAlreadyExistsException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder.
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder.
                 buildCustomApiResponse(
                         false,
                         ResponseCode.USER_ALREADY_EXISTS_ERROR.name(),
@@ -71,10 +71,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = CustomExpiredJwtException.class)
-    public ResponseEntity<?> handleCustomExpiredJwtException(
+    public ResponseEntity<CustomApiResponse<Void>> handleCustomExpiredJwtException(
             CustomExpiredJwtException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder.
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder.
                 buildCustomApiResponse(
                         false,
                         ResponseCode.EXPIRED_JWT_ERROR.name(),
@@ -86,10 +86,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MalformedJwtException.class)
-    public ResponseEntity<?> handleMalformedJwtException(
+    public ResponseEntity<CustomApiResponse<Void>> handleMalformedJwtException(
             MalformedJwtException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.JWT_INCORRECT_FORMAT.name(),
@@ -101,9 +101,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = JwtException.class)
-    public ResponseEntity<?> handleJwtException(JwtException exception,
+    public ResponseEntity<CustomApiResponse<Void>> handleJwtException(JwtException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.JWT_ERROR.name(),
@@ -115,9 +115,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = UnsupportedJwtException.class)
-    public ResponseEntity<?> handleUnsupportedJwtException(UnsupportedJwtException exception,
+    public ResponseEntity<CustomApiResponse<Void>> handleUnsupportedJwtException(UnsupportedJwtException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.JWT_UNSUPPORT_ERROR.name(),
@@ -129,9 +129,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = SecurityException.class)
-    public ResponseEntity<?> handleSecurityException(SecurityException exception,
+    public ResponseEntity<CustomApiResponse<Void>> handleSecurityException(SecurityException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<Void> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.USER_AUTHENTICATION_ERROR.name(),
@@ -143,9 +143,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<?> handleException(Exception exception,
+    public ResponseEntity<CustomApiResponse<String>> handleException(Exception exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<String> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.INTERNAL_SERVER_ERROR.name(),
@@ -157,9 +157,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = BadCredentialsException.class)
-    public ResponseEntity<?> handleAuthenticationException(BadCredentialsException exception,
+    public ResponseEntity<CustomApiResponse<String>> handleAuthenticationException(BadCredentialsException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<String> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.BAD_CREDENTIALS.name(),
@@ -171,9 +171,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = UserInfoNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFoundException(UserInfoNotFoundException exception,
+    public ResponseEntity<CustomApiResponse<String>> handleUserNotFoundException(UserInfoNotFoundException exception,
             HttpServletRequest request) {
-        CustomApiResponse<?> customApiResponse = CustomApiResponseBuilder
+        CustomApiResponse<String> customApiResponse = CustomApiResponseBuilder
                 .buildCustomApiResponse(
                         false,
                         ResponseCode.USER_NOT_FOUND.name(),
