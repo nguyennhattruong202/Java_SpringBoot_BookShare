@@ -11,10 +11,10 @@ public class CookieProvider {
 
     @Value("${jwt.expiration}")
     private long expiration;
-    private static final String cookieName = "accessToken";
+    private static final String COOKIE_NAME = "accessToken";
 
     public void addTokenToCookie(HttpServletResponse response, String token) {
-        Cookie cookie = new Cookie(cookieName, token);
+        Cookie cookie = new Cookie(COOKIE_NAME, token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
@@ -27,7 +27,7 @@ public class CookieProvider {
             return null;
         }
         for (Cookie cookie : request.getCookies()) {
-            if (cookieName.equals(cookie.getName())) {
+            if (COOKIE_NAME.equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }
@@ -35,7 +35,7 @@ public class CookieProvider {
     }
 
     public void clearJwtCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie(cookieName, null);
+        Cookie cookie = new Cookie(COOKIE_NAME, null);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");

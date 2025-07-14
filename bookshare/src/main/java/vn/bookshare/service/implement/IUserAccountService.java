@@ -60,9 +60,9 @@ public class IUserAccountService implements UserAccountService {
         }
         UserAccount userAccount = userAccountRepository.findByUsername(username)
                 .orElseThrow(() -> new UserAccountNotFoundException("User not found"));
-        if (userAccount.getUserInfo() == null) {
-            throw new UserInfoNotFoundException("User infomation not found");
-        }
+//        if (userAccount.getUserInfo() == null) {
+//            throw new UserInfoNotFoundException("User infomation not found");
+//        }
         return UserAccountMapper.toUserAccountResponse(userAccount);
     }
 

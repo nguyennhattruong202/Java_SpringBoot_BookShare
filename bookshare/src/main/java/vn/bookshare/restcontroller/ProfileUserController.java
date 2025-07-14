@@ -31,6 +31,6 @@ public class ProfileUserController {
                         userAccountService.getProfileUser(),
                         request
                 );
-        return ResponseEntity.status(201).body(customApiResponse);
+        return ResponseEntity.status(200).body(customApiResponse);
     }
 }

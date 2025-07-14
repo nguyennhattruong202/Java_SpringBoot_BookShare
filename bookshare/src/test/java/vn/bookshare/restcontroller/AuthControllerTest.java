@@ -25,15 +25,15 @@ import vn.bookshare.service.UserAccountService;
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-public class AuthControllerTest {
+class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private UserAccountService accoutUserService;
 
-    private final String registerEndpoint = "/api/auth/register";
-    private final String loginEndpoint = "/api/auth/login";
+    private static final String REGISTER_ENDPOINT = "/api/auth/register";
+    private static final String LOGIN_ENDPOINT = "/api/auth/login";
 
     @BeforeEach
     void setup() {
@@ -55,7 +55,7 @@ public class AuthControllerTest {
                         "confirmPassword", "1234567"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -76,7 +76,7 @@ public class AuthControllerTest {
                         "confirmPassword", "1234567"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -99,7 +99,7 @@ public class AuthControllerTest {
                         "confirmPassword", "1234567"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -122,7 +122,7 @@ public class AuthControllerTest {
                         "confirmPassword", "123459"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -146,7 +146,7 @@ public class AuthControllerTest {
                         "confirmPassword", "123459"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -170,7 +170,7 @@ public class AuthControllerTest {
                         "confirmPassword", "123457"
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -195,7 +195,7 @@ public class AuthControllerTest {
                         "confirmPassword", ""
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -221,7 +221,7 @@ public class AuthControllerTest {
                         "confirmPassword", ""
                 )
         );
-        mockMvc.perform(post(registerEndpoint).with(csrf())
+        mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -252,7 +252,7 @@ public class AuthControllerTest {
                         "password", "1234567"
                 )
         );
-        mockMvc.perform(post(loginEndpoint).with(csrf())
+        mockMvc.perform(post(LOGIN_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
@@ -274,7 +274,7 @@ public class AuthControllerTest {
                         "password", "1234567"
                 )
         );
-        mockMvc.perform(post(loginEndpoint).with(csrf())
+        mockMvc.perform(post(LOGIN_ENDPOINT).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpectAll(
