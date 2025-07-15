@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.springframework.transaction.annotation.Transactional;
 import vn.bookshare.entity.UserAccount;
-import vn.bookshare.entity.UserInfo;
 import vn.bookshare.repository.UserAccountRepository;
 import vn.bookshare.security.JwtTokenProvider;
 
@@ -38,11 +37,9 @@ class ProfileUserControllerTest {
     @Test
     @DisplayName("Should return profile when JWT token is valid")
     void shouldReturnUserProfile_WhenValidToken() throws Exception {
-        UserAccount userAccount = createUserAccount("user-demo-1", "User demo",
-                "userdemo@gmail.com", "0123456789qwertyuiopasdfghjklzxcvbnm");
-        UserInfo userInfo = createUserInfo("Nam", "Việt Nam", "0865761892");
-        userAccount.setUserInfo(userInfo);
-        userInfo.setUserAccount(userAccount);
+        UserAccount userAccount = createUserAccount("user-demo-1",
+                "userdemo@gmail.com", "0123456789qwertyuiopasdfghjklzxcvbnm",
+                "User demo", LocalDate.now(), "Nam", "0909887654");
         userAccountRepository.save(userAccount);
         String token = jwtTokenProvider.generateToken(userAccount.getUsername());
         mockMvc.perform(get(GET_PROFILE_ENDPOINT).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -60,8 +57,9 @@ class ProfileUserControllerTest {
     @Test
     @DisplayName("Should return profile when UserInfo is null")
     void shouldReturnUserProfile_WhenUserInfoIsNull() throws Exception {
-        UserAccount userAccount = createUserAccount("user-demo-1", "User demo",
-                "userdemo@gmail.com", "0123456789qwertyuiopasdfghjklzxcvbnm");
+        UserAccount userAccount = createUserAccount("user-demo-1",
+                "userdemo@gmail.com", "0123456789qwertyuiopasdfghjklzxcvbnm",
+                "User demo", LocalDate.now(), "Nam", "0909887654");
         userAccountRepository.save(userAccount);
         String token = jwtTokenProvider.generateToken(userAccount.getUsername());
         mockMvc.perform(get(GET_PROFILE_ENDPOINT).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
@@ -76,22 +74,17 @@ class ProfileUserControllerTest {
                 .andDo(print());
     }
 
-    private UserAccount createUserAccount(String url, String fullname,
-            String username, String password) {
+    private UserAccount createUserAccount(String endpoint,
+            String username, String password, String fullname, LocalDate dateOfBirth,
+            String gender, String phone) {
         UserAccount userAccount = new UserAccount();
-        userAccount.setUrl(url);
-        userAccount.setFullname(fullname);
+        userAccount.setEndpoint(endpoint);
         userAccount.setUsername(username);
         userAccount.setPassword(password);
+        userAccount.setFullname(fullname);
+        userAccount.setDateOfBirth(dateOfBirth);
+        userAccount.setGender(gender);
+        userAccount.setPhone(phone);
         return userAccount;
-    }
-
-    private UserInfo createUserInfo(String gender, String nationality, String phone) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setDateOfBirth(LocalDate.now());
-        userInfo.setGender(gender);
-        userInfo.setNationality(nationality);
-        userInfo.setPhone(phone);
-        return userInfo;
     }
 }

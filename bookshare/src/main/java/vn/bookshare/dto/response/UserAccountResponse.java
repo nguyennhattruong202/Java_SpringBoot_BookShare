@@ -12,15 +12,13 @@ import lombok.Setter;
 public class UserAccountResponse {
 
     private Long userId;
-    private String url;
-    private String fullname;
+    private String endpoint;
     private String username;
+    private String fullname;
     private LocalDate dateOfBirth;
     private String gender;
-    private String nationality;
     private String phone;
+    private String note;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    private String note;
-    private String role;
 }

@@ -13,19 +13,16 @@ import vn.bookshare.dto.request.UserAccountRegistrationRequest;
 import vn.bookshare.dto.request.UserLoginRequest;
 import vn.bookshare.dto.response.CustomApiResponse;
 import vn.bookshare.dto.response.TokenResponse;
-import vn.bookshare.service.AuthService;
 import vn.bookshare.service.UserAccountService;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class UserAccountController {
 
     private final UserAccountService userAccountService;
-    private final AuthService authService;
 
-    public AuthController(UserAccountService userService, AuthService authService) {
+    public UserAccountController(UserAccountService userService) {
         this.userAccountService = userService;
-        this.authService = authService;
     }
 
     @PostMapping("/register")
@@ -52,7 +49,7 @@ public class AuthController {
                         true,
                         ResponseCode.LOGIN_SUCCESSFUL.name(),
                         "Login successful",
-                        authService.login(userLoginRequest),
+                        userAccountService.login(userLoginRequest),
                         request
                 );
         return ResponseEntity.status(200).body(customApiResponse);

@@ -1,5 +1,6 @@
 package vn.bookshare.service;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,16 @@ class AccountUserServiceTest {
 
     @Test
     void registerUser_Success() {
-        UserAccountRegistrationRequest request = new UserAccountRegistrationRequest();
+        UserAccountRegistrationRequest userAccountRegistrationRequest = new UserAccountRegistrationRequest();
         String username = "userdemo@gmail.com";
-        request.setFullname("User demo");
-        request.setUsername(username);
-        request.setPassword("1234567");
-        request.setConfirmPassword("1234567");
-        userAccountService.registerUser(request);
+        userAccountRegistrationRequest.setUsername(username);
+        userAccountRegistrationRequest.setFullname("User demo");
+        userAccountRegistrationRequest.setDateOfBirth(LocalDate.now());
+        userAccountRegistrationRequest.setGender("Nam");
+        userAccountRegistrationRequest.setPhone("0987665178");
+        userAccountRegistrationRequest.setPassword("1234567");
+        userAccountRegistrationRequest.setConfirmPassword("1234567");
+        userAccountService.registerUser(userAccountRegistrationRequest);
 
         Assertions.assertTrue(userAccountRepository.findByUsername(username).isPresent());
     }
@@ -37,15 +41,21 @@ class AccountUserServiceTest {
     @Test
     void registerUser_ExistingEmail_ThrowsException() {
         UserAccount userAccountExisting = new UserAccount();
-        userAccountExisting.setUrl("user-1-1");
-        userAccountExisting.setFullname("User 1");
+        userAccountExisting.setEndpoint("user-1-1");
         userAccountExisting.setUsername("user1@gmail.com");
         userAccountExisting.setPassword("123456789");
+        userAccountExisting.setFullname("User 1");
+        userAccountExisting.setDateOfBirth(LocalDate.now());
+        userAccountExisting.setGender("Nam");
+        userAccountExisting.setPhone("0987665178");
         userAccountRepository.save(userAccountExisting);
 
         UserAccountRegistrationRequest userRegistrationRequest = new UserAccountRegistrationRequest();
-        userRegistrationRequest.setFullname("User 1");
         userRegistrationRequest.setUsername("user1@gmail.com");
+        userRegistrationRequest.setFullname("User 1");
+        userRegistrationRequest.setDateOfBirth(LocalDate.now());
+        userRegistrationRequest.setGender("Nam");
+        userRegistrationRequest.setPhone("0987665178");
         userRegistrationRequest.setPassword("1234567");
         userRegistrationRequest.setConfirmPassword("1234567");
 

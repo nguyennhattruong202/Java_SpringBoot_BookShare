@@ -1,10 +1,11 @@
 package vn.bookshare.restcontroller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
 import java.util.Map;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,7 +26,7 @@ import vn.bookshare.service.UserAccountService;
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-class AuthControllerTest {
+class UserAccountControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,22 +36,16 @@ class AuthControllerTest {
     private static final String REGISTER_ENDPOINT = "/api/auth/register";
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
 
-    @BeforeEach
-    void setup() {
-        UserAccountRegistrationRequest request = new UserAccountRegistrationRequest();
-        request.setFullname("User Demo");
-        request.setUsername("userdemo@gmail.com");
-        request.setPassword("1234567");
-        request.setConfirmPassword("1234567");
-        accoutUserService.registerUser(request);
-    }
-
     @Test
-    void registerUser_ValidEmail_ReturnsCreated() throws Exception {
+    @DisplayName("Should return successful registration response with HTTP 201 for valid input")
+    void testRegisterUserApi_ValidInput_ReturnsHttpCreated() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Đinh Thế Hoàng",
                         "username", "dinhthehoang@gmail.com",
+                        "fullname", "Đinh Thế Hoàng",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "1234567",
                         "confirmPassword", "1234567"
                 )
@@ -62,16 +57,24 @@ class AuthControllerTest {
                         status().is(201),
                         jsonPath("$.status").value(true),
                         jsonPath("$.code").value("REGISTRATION_SUCCESSFUL"),
-                        jsonPath("$.message").value("Registration successful"))
+                        jsonPath("$.message").value("Registration successful"),
+                        jsonPath("$.timestamp").isNotEmpty(),
+                        jsonPath("$.path").value("/api/auth/register"))
                 .andDo(print());
     }
 
     @Test
-    void registerUser_EmailAlreadyExists_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for user already exists")
+    void testRegisterUserApi_UserAccountAlreadyExists_ReturnsHttpBadRequest() throws Exception {
+        registerUser("userdemo@gmail.com", "User Demo", "1990-01-01", "Nam",
+                "0909887654", "1234567", "1234567");
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "User Demo",
                         "username", "userdemo@gmail.com",
+                        "fullname", "User Demo",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "1234567",
                         "confirmPassword", "1234567"
                 )
@@ -90,11 +93,15 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_PasswordNotMatchConfirm_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for password not match confirm password")
+    void testRegisterUserApi_PasswordNotMatchConfirmPassword_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Nguyễn Văn Bình",
                         "username", "nguyenvanbinh@gmail.com",
+                        "fullname", "Nguyễn Văn Bình",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "1234569",
                         "confirmPassword", "1234567"
                 )
@@ -113,11 +120,15 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_InvalidEmail_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for invalid email (username)")
+    void testRegisterUserApi_InvalidEmail_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Example",
                         "username", "example.com",
+                        "fullname", "Example",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "123459",
                         "confirmPassword", "123459"
                 )
@@ -137,11 +148,15 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_EmailIsBlank_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for email (username) field is blank")
+    void testRegisterUserApi_EmailFieldIsBlank_ReturnsHtpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Example",
                         "username", "",
+                        "fullname", "Example",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "123459",
                         "confirmPassword", "123459"
                 )
@@ -161,13 +176,17 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_PasswordIsBlank_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for password field is blank")
+    void testRegisterUserApi_PasswordFieldIsBlank_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Example",
                         "username", "example@gmail.com",
+                        "fullname", "Example",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
                         "password", "",
-                        "confirmPassword", "123457"
+                        "confirmPassword", "123459"
                 )
         );
         mockMvc.perform(post(REGISTER_ENDPOINT).with(csrf())
@@ -186,12 +205,16 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_ConfirmPasswordIsBlank_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for confirm password field is blank")
+    void testRegisterUserApi_ConfirmPasswordFieldIsBlank_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "Example",
                         "username", "example@gmail.com",
-                        "password", "123457",
+                        "fullname", "Example",
+                        "dateOfBirth", "1990-01-01",
+                        "gender", "Nam",
+                        "phone", "0909887678",
+                        "password", "123459",
                         "confirmPassword", ""
                 )
         );
@@ -212,11 +235,15 @@ class AuthControllerTest {
     }
 
     @Test
-    void registerUser_AllFieldIsBlank_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for all field is blank")
+    void testRegisterUserApi_AllFieldIsBlank_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
-                        "fullname", "",
                         "username", "",
+                        "fullname", "",
+                        "dateOfBirth", "",
+                        "gender", "",
+                        "phone", "",
                         "password", "",
                         "confirmPassword", ""
                 )
@@ -245,7 +272,10 @@ class AuthControllerTest {
     }
 
     @Test
-    void loginUser_ValidEmailAndPassword_ReturnsOK() throws Exception {
+    @DisplayName("Should return http ok for email and password are valid")
+    void testLoginUserApi_EmailAndPasswordAreValid_ReturnsHttpOK() throws Exception {
+        registerUser("userdemo@gmail.com", "User Demo", "1990-01-01", "Nam",
+                "0909887654", "1234567", "1234567");
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
                         "username", "userdemo@gmail.com",
@@ -267,7 +297,8 @@ class AuthControllerTest {
     }
 
     @Test
-    void loginUser_UserNotFound_ReturnsBadRequest() throws Exception {
+    @DisplayName("Should return http bad request for user not found")
+    void testLoginUserApi_UserNotFound_ReturnsHttpBadRequest() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
                 Map.of(
                         "username", "user1@gmail.com",
@@ -285,6 +316,19 @@ class AuthControllerTest {
                         jsonPath("$.timestamp").isNotEmpty(),
                         jsonPath("$.path").value("/api/auth/login"))
                 .andDo(print());
+    }
+
+    private void registerUser(String username, String fullname, String dateOfBirth,
+            String gender, String phone, String password, String confirmPassword) {
+        UserAccountRegistrationRequest userAccountRegisterRequest = new UserAccountRegistrationRequest();
+        userAccountRegisterRequest.setUsername(username);
+        userAccountRegisterRequest.setFullname(fullname);
+        userAccountRegisterRequest.setDateOfBirth(LocalDate.parse(dateOfBirth));
+        userAccountRegisterRequest.setGender(gender);
+        userAccountRegisterRequest.setPhone(phone);
+        userAccountRegisterRequest.setPassword(password);
+        userAccountRegisterRequest.setConfirmPassword(confirmPassword);
+        accoutUserService.registerUser(userAccountRegisterRequest);
     }
 
 }
